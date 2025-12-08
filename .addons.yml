@@ -1,0 +1,10 @@
+channel: stable
+addons:
+  printernizer-ha:
+    repository: schmacka/printernizer-ha
+    target: printernizer-ha
+    image: ghcr.io/schmacka/printernizer-ha-{arch}
+  rtsp-to-prusa-ha:
+    repository: schmacka/rtsp-to-prusa-ha
+    target: rtsp-to-prusa-ha
+    image: ghcr.io/schmacka/rtsp-to-prusa-ha-{arch}

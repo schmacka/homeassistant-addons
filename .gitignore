@@ -1,0 +1,9 @@
+# .gitignore for Home Assistant Add-ons Repository
+*.pyc
+__pycache__/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
