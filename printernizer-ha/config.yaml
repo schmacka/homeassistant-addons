@@ -16,19 +16,24 @@ panel_title: Printernizer
 hassio_api: true
 hassio_role: default
 homeassistant_api: false
+
 # Ingress configuration
 ingress: true
 ingress_port: 8000
 ingress_entry: /
+
 # Optional external port access (disabled by default for security)
 # Users can enable this in the Network section if needed
 ports:
   8000/tcp: null
+
 # Port description for Network section
 ports_description:
   8000/tcp: Web interface (optional - use Ingress instead)
+
 # WebUI configuration
 webui: "[PROTO:ssl]://[HOST]:[PORT:8000]"
+
 # Options and schema
 options:
   log_level: info
@@ -42,6 +47,7 @@ options:
   timelapse_auto_process_timeout: 300
   timelapse_cleanup_age_days: 30
   job_creation_auto_create: true
+
 schema:
   log_level: list(debug|info|warning|error)?
   timezone: str?
@@ -54,33 +60,39 @@ schema:
   timelapse_auto_process_timeout: int(60,3600)?
   timelapse_cleanup_age_days: int(1,365)?
   job_creation_auto_create: bool?
+
 # Image configuration
 #image: ghcr.io/schmacka/printernizer-{arch}
 # Note: No pre-built image - HA will build locally from Dockerfile
 
+
 # Advanced options
 advanced: false
+
 # Map directories for persistence
 map:
   - data:rw
+
 # Host network access for printer connectivity
 # IMPORTANT: Printer discovery requires host_network to access multicast traffic (SSDP/mDNS)
 # Enabled by default to support auto-discovery of Bambu Lab and Prusa printers
 # Can be disabled in add-on Network settings if discovery is not needed
 host_network: true
+
 # Services required
 services:
   - mqtt:want
+
 # Backup configuration
 backup: hot
 backup_exclude:
   - "*.log"
   - "temp/*"
   - "*.tmp"
+
 # Supported architectures with base images
 build_from:
   aarch64: ghcr.io/home-assistant/aarch64-base:latest
   amd64: ghcr.io/home-assistant/amd64-base:latest
   armv7: ghcr.io/home-assistant/armv7-base:latest
   armhf: ghcr.io/home-assistant/armhf-base:latest
-image: ghcr.io/schmacka/printernizer-ha-{arch}
