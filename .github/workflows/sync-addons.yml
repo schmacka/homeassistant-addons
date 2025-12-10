@@ -87,7 +87,7 @@ jobs:
             fi
 
             # Also sync optional files if they exist
-            for file in README.md icon.png logo.png DOCS.md CHANGELOG.md Dockerfile build.yaml requirements.txt run.sh; do
+            for file in README.md icon.png logo.png DOCS.md CHANGELOG.md Dockerfile build.yaml requirements.txt run.sh database_schema.sql; do
               file_url="${base_url}/${file}"
               if curl -sfL "$file_url" -o "${target}/${file}" 2>/dev/null; then
                 echo "  Downloaded: $file"
