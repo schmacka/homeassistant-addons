@@ -1,0 +1,99 @@
+name: Sync Add-on Configs
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"  # Every 6 hours
+  workflow_dispatch:  # Manual trigger
+  push:
+    paths:
+      - ".addons.yml"
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install yq
+        run: |
+          sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          sudo chmod +x /usr/local/bin/yq
+
+      - name: Sync add-on configs
+        run: |
+          set -e
+
+          # Read each addon from .addons.yml
+          for addon in $(yq e '.addons | keys | .[]' .addons.yml); do
+            echo "Processing addon: $addon"
+
+            repo=$(yq e ".addons.${addon}.repository" .addons.yml)
+            target=$(yq e ".addons.${addon}.target" .addons.yml)
+            image=$(yq e ".addons.${addon}.image" .addons.yml)
+
+            echo "  Repository: $repo"
+            echo "  Target: $target"
+            echo "  Image: $image"
+
+            # Create target directory if it doesn't exist
+            mkdir -p "$target"
+
+            # Try to fetch config.yaml, fall back to config.json
+            config_url="https://raw.githubusercontent.com/${repo}/main/config.yaml"
+            config_file="config.yaml"
+
+            if ! curl -sfL "$config_url" -o "${target}/${config_file}" 2>/dev/null; then
+              # Try config.json
+              config_url="https://raw.githubusercontent.com/${repo}/main/config.json"
+              config_file="config.json"
+
+              if ! curl -sfL "$config_url" -o "${target}/${config_file}" 2>/dev/null; then
+                echo "  Warning: No config.yaml or config.json found in $repo"
+                continue
+              fi
+            fi
+
+            echo "  Downloaded: $config_file"
+
+            # Override image in config if specified in .addons.yml
+            if [ "$image" != "null" ]; then
+              if [ "$config_file" = "config.yaml" ]; then
+                yq e -i ".image = \"${image}\"" "${target}/${config_file}"
+              else
+                # For JSON, use jq if available, otherwise leave as-is
+                if command -v jq &> /dev/null; then
+                  tmp=$(mktemp)
+                  jq --arg img "$image" '.image = $img' "${target}/${config_file}" > "$tmp"
+                  mv "$tmp" "${target}/${config_file}"
+                fi
+              fi
+              echo "  Updated image to: $image"
+            fi
+
+            # Also sync optional files if they exist
+            for file in icon.png logo.png DOCS.md CHANGELOG.md; do
+              file_url="https://raw.githubusercontent.com/${repo}/main/${file}"
+              if curl -sfL "$file_url" -o "${target}/${file}" 2>/dev/null; then
+                echo "  Downloaded: $file"
+              else
+                rm -f "${target}/${file}" 2>/dev/null || true
+              fi
+            done
+
+            echo "  Done!"
+          done
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add -A
+
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Sync add-on configs from source repositories"
+            git push
+          fi
