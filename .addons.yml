@@ -1,8 +1,8 @@
 channel: stable
 addons:
   printernizer-ha:
-    repository: schmacka/printernizer-ha
-    branch: master
+    repository: schmacka/printernizer
+    branch: main
     source_path: printernizer
     target: printernizer-ha
   rtsp-to-prusa-ha:
