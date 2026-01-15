@@ -44,7 +44,7 @@ python-dotenv==1.2.1
 python-dateutil==2.9.0.post0
 
 # German Business Support
-pytz==2023.3
+pytz==2025.2
 
 # Performance Monitoring
 psutil==7.2.1
