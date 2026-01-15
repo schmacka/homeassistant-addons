@@ -1,0 +1,36 @@
+version: 2
+updates:
+  # Python dependencies - rtsp-to-prusa-ha
+  - package-ecosystem: "pip"
+    directory: "/rtsp-to-prusa-ha"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+
+  # Python dependencies - printernizer-ha
+  - package-ecosystem: "pip"
+    directory: "/printernizer-ha"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+
+  # Docker - rtsp-to-prusa-ha
+  - package-ecosystem: "docker"
+    directory: "/rtsp-to-prusa-ha"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+
+  # Docker - printernizer-ha
+  - package-ecosystem: "docker"
+    directory: "/printernizer-ha"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
