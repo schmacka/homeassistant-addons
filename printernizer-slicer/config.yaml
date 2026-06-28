@@ -1,5 +1,5 @@
 name: Printernizer Slicer
-version: "2.41.0"
+version: "2.41.3"
 slug: printernizer_slicer
 description: OrcaSlicer-based slicing service for Printernizer (runs the slicer in its own container)
 url: https://github.com/schmacka/printernizer/blob/master/docs/SLICER-SETUP.md
