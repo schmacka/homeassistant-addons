@@ -102,7 +102,7 @@ from src.constants import (
 
 # Application version - Automatically extracted from git tags
 # Fallback version used when git is unavailable
-APP_VERSION = get_version(fallback="2.41.7")
+APP_VERSION = get_version(fallback="2.42.0")
 
 
 # Prometheus metrics - initialized once
@@ -312,7 +312,11 @@ async def lifespan(app: FastAPI):
         library_service=library_service
     )
     await slicing_queue.initialize()
-    
+
+    # Watch-folder auto-slice workflows need the slicing services, which are
+    # constructed after the watcher (late injection)
+    file_watcher_service.set_slicing_services(slicing_queue, slicer_service)
+
     timer.end("Slicer services initialization")
     logger.info("[OK] Slicer services initialized")
 
