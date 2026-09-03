@@ -31,6 +31,19 @@ A Home Assistant add-on for streaming RTSP to Prusa printers.
 
 [![RTSP to Prusa add-on documentation][addon-docs-badge]][rtsp-to-prusa-ha-doc]
 
+### 🧩 [Filament Analyzer][spoolman-importer-files]
+
+![Latest Version][spoolman-importer-version-badge]
+![Supports aarch64 Architecture][spoolman-importer-aarch64-badge]
+![Supports amd64 Architecture][spoolman-importer-amd64-badge]
+![Supports armv7 Architecture][spoolman-importer-armv7-badge]
+
+A Home Assistant add-on that analyzes filament spool photos with AI and adds the spools to Spoolman automatically.
+
+> **Note:** no pre-built image is published for this add-on, so Home Assistant builds it locally on first install.
+
+[![Filament Analyzer add-on documentation][addon-docs-badge]][spoolman-importer-doc]
+
 ## Installation
 
 To install any of the add-ons offered in this repository, you must first add its repository URL to your Home Assistant instance. To do so, click the following button:
@@ -53,6 +66,7 @@ If you are here, seeking help, please look at the issues of the specific addon.
 
 - [Issues of Printernizer][printernizer-ha-issue]
 - [Issues of RTSP to Prusa][rtsp-to-prusa-ha-issue]
+- [Issues of Filament Analyzer][spoolman-importer-issue]
 
 [repository-badge]: https://img.shields.io/badge/Add_addon_repository_to_my-Home%20Assistant-41BDF5?logo=home-assistant&style=for-the-badge
 [repository-url]: https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A//github.com/schmacka/homeassistant-addons
@@ -80,3 +94,11 @@ If you are here, seeking help, please look at the issues of the specific addon.
 [rtsp-to-prusa-ha-armhf-badge]: https://img.shields.io/badge/armhf-yes-green.svg
 [rtsp-to-prusa-ha-armv7-badge]: https://img.shields.io/badge/armv7-yes-green.svg
 [rtsp-to-prusa-ha-i386-badge]: https://img.shields.io/badge/i386-yes-green.svg
+
+[spoolman-importer-files]: https://github.com/schmacka/Spoolman-Importer/tree/main/addon
+[spoolman-importer-doc]: https://github.com/schmacka/Spoolman-Importer/blob/main/addon/DOCS.md
+[spoolman-importer-issue]: https://github.com/schmacka/Spoolman-Importer/issues
+[spoolman-importer-version-badge]: https://img.shields.io/badge/version-0.4.0-blue.svg
+[spoolman-importer-aarch64-badge]: https://img.shields.io/badge/aarch64-yes-green.svg
+[spoolman-importer-amd64-badge]: https://img.shields.io/badge/amd64-yes-green.svg
+[spoolman-importer-armv7-badge]: https://img.shields.io/badge/armv7-yes-green.svg
