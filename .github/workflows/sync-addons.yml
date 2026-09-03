@@ -102,29 +102,29 @@ jobs:
               fi
             done
 
-            # Sync source directories if they exist (for local builds)
-            for dir in src frontend migrations; do
-              dir_check_url="${base_url}/${dir}/"
-              if curl -sfL --head "${base_url}/${dir}" 2>/dev/null | grep -q "200\|301\|302"; then
-                echo "  Syncing directory: $dir"
-                rm -rf "${target}/${dir}"
-                mkdir -p "${target}/${dir}"
-                # Use git sparse checkout for directory sync
-                temp_dir=$(mktemp -d)
-                git clone --depth 1 --filter=blob:none --sparse "https://github.com/${repo}" "$temp_dir" 2>/dev/null || true
-                if [ -d "$temp_dir" ]; then
-                  cd "$temp_dir"
-                  git sparse-checkout set "${source_path}/${dir}" 2>/dev/null || true
-                  git checkout "$branch" 2>/dev/null || true
-                  if [ -d "${source_path}/${dir}" ]; then
-                    cp -r "${source_path}/${dir}"/* "${GITHUB_WORKSPACE}/${target}/${dir}/" 2>/dev/null || true
-                  fi
-                  cd "$GITHUB_WORKSPACE"
-                  rm -rf "$temp_dir"
+            # Sync source directories if they exist (needed for locally built add-ons).
+            # raw.githubusercontent.com cannot list directories, so clone the source
+            # repository once per add-on and copy whichever directories are present.
+            temp_dir=$(mktemp -d)
+            if git clone --depth 1 --branch "$branch" --filter=blob:none --sparse \
+                "https://github.com/${repo}" "$temp_dir" 2>/dev/null; then
+              for dir in src frontend migrations app templates translations rootfs; do
+                source_dir="${source_path:+${source_path}/}${dir}"
+
+                git -C "$temp_dir" sparse-checkout add "$source_dir" 2>/dev/null || true
+
+                if [ -d "${temp_dir}/${source_dir}" ]; then
+                  echo "  Syncing directory: $dir"
+                  rm -rf "${target:?}/${dir}"
+                  mkdir -p "${target}/${dir}"
+                  cp -r "${temp_dir}/${source_dir}/." "${target}/${dir}/"
                   echo "    Done syncing $dir"
                 fi
-              fi
-            done
+              done
+            else
+              echo "  Warning: could not clone $repo ($branch) for directory sync"
+            fi
+            rm -rf "$temp_dir"
 
             echo "  Done!"
           done

@@ -26,6 +26,12 @@ This repository serves as a **distribution point** for Home Assistant add-ons. I
    - Branch: `main`
    - Path: `prusa_connect_rtsp`
 
+3. **Filament Analyzer** (Spoolman Importer) - AI spool photo analysis that adds spools to Spoolman
+   - Source: https://github.com/schmacka/Spoolman-Importer
+   - Branch: `main`
+   - Path: `addon`
+   - No pre-built image; Home Assistant builds it locally from the synced sources
+
 ## Architecture
 
 This repository uses the **Home Assistant Add-on Repository** structure:
@@ -45,6 +51,7 @@ homeassistant-addons/
 ├── README.md               # User documentation
 ├── printernizer-ha/        # Printernizer add-on (auto-synced)
 ├── rtsp-to-prusa-ha/       # RTSP to Prusa add-on (auto-synced)
+├── spoolman-importer/      # Filament Analyzer add-on (auto-synced)
 └── .github/
     └── workflows/          # GitHub Actions for auto-sync
 ```
@@ -53,7 +60,7 @@ homeassistant-addons/
 
 ⚠️ **CRITICAL**: This repository is an **aggregator only**.
 
-- **Do NOT modify code in `printernizer-ha/` or `rtsp-to-prusa-ha/` directories**
+- **Do NOT modify code in `printernizer-ha/`, `rtsp-to-prusa-ha/` or `spoolman-importer/` directories**
 - These directories are automatically synced from their source repositories
 - Any changes made here will be overwritten
 
@@ -61,6 +68,7 @@ homeassistant-addons/
 
 1. **Printernizer**: Edit in https://github.com/schmacka/printernizer (main repo)
 2. **RTSP to Prusa**: Edit in https://github.com/schmacka/Prusa-Connect-RTSP-HA
+3. **Filament Analyzer**: Edit in https://github.com/schmacka/Spoolman-Importer (`addon/` directory)
 
 Changes will automatically sync to this repository via GitHub Actions.
 
@@ -83,7 +91,17 @@ addons:
     branch: main
     source_path: prusa_connect_rtsp
     target: rtsp-to-prusa-ha
+  spoolman-importer:
+    repository: schmacka/Spoolman-Importer
+    branch: main
+    source_path: addon
+    target: spoolman-importer
 ```
+
+The optional `image` key pins a pre-built container image
+(`ghcr.io/schmacka/<addon>-{arch}`). Omit it for add-ons without published
+images — Home Assistant then builds them locally, which requires the
+`Dockerfile` and the source directories to be synced into the target folder.
 
 ### GitHub Actions
 
@@ -156,12 +174,14 @@ Only modify these files:
 - **Repository issues**: https://github.com/schmacka/homeassistant-addons/issues
 - **Printernizer issues**: https://github.com/schmacka/printernizer-ha/issues
 - **RTSP to Prusa issues**: https://github.com/schmacka/Prusa-Connect-RTSP-HA/issues
+- **Filament Analyzer issues**: https://github.com/schmacka/Spoolman-Importer/issues
 
 ## Related Repositories
 
 - **Printernizer Main**: https://github.com/schmacka/printernizer
 - **Printernizer HA Add-on**: https://github.com/schmacka/printernizer-ha
 - **RTSP to Prusa**: https://github.com/schmacka/Prusa-Connect-RTSP-HA
+- **Spoolman Importer / Filament Analyzer**: https://github.com/schmacka/Spoolman-Importer
 
 ---
 
