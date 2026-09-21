@@ -12,3 +12,10 @@ addons:
     source_path: prusa_connect_rtsp
     target: rtsp-to-prusa-ha
     image: ghcr.io/schmacka/rtsp-to-prusa-ha-{arch}
+  spoolman-importer:
+    repository: schmacka/Spoolman-Importer
+    branch: main
+    source_path: addon
+    target: spoolman-importer
+    # No pre-built image is published for this add-on, so Home Assistant
+    # builds it locally from the synced Dockerfile and sources.
