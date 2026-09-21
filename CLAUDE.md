@@ -30,7 +30,7 @@ This repository serves as a **distribution point** for Home Assistant add-ons. I
    - Source: https://github.com/schmacka/Spoolman-Importer
    - Branch: `main`
    - Path: `addon`
-   - No pre-built image; Home Assistant builds it locally from the synced sources
+   - Image: `ghcr.io/schmacka/spoolman-importer-{arch}`
 
 ## Architecture
 
@@ -96,6 +96,7 @@ addons:
     branch: main
     source_path: addon
     target: spoolman-importer
+    image: ghcr.io/schmacka/spoolman-importer-{arch}
 ```
 
 The optional `image` key pins a pre-built container image

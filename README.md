@@ -39,8 +39,6 @@ A Home Assistant add-on for streaming RTSP to Prusa printers.
 
 A Home Assistant add-on that analyzes filament spool photos with AI and adds the spools to Spoolman automatically.
 
-> **Note:** no pre-built image is published for this add-on yet, so Home Assistant builds it locally on first install. Supported on `amd64` and `aarch64`.
-
 [![Filament Analyzer add-on documentation][addon-docs-badge]][spoolman-importer-doc]
 
 ## Installation

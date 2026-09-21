@@ -17,5 +17,4 @@ addons:
     branch: main
     source_path: addon
     target: spoolman-importer
-    # No pre-built image is published for this add-on, so Home Assistant
-    # builds it locally from the synced Dockerfile and sources.
+    image: ghcr.io/schmacka/spoolman-importer-{arch}
